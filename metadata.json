@@ -1,0 +1,8 @@
+{
+  "name": "Linguist AI",
+  "description": "A comprehensive language learning platform featuring real-time conversational AI powered by Gemini Live API for speaking, listening, reading, and writing mastery.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}
