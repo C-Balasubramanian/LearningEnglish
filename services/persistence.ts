@@ -1,74 +1,87 @@
 
 import { User, Activity, LearningMode } from '../types';
 
-const ADMIN_EMAIL = 'balainfilabs@gmail.com';
+const USERS_KEY = 'linguist_users_db';
+const SESSION_KEY = 'linguist_session';
+const ACTIVITIES_KEY = 'linguist_activities_db';
 
-const DB_METADATA = {
-  cluster: 'Cluster0',
-  project: 'ai',
-  database: 'test',
-  collections: {
-    users: 'users',
-    conversations: 'conversations'
-  }
-};
-
-const SESSION_KEY = 'linguist_ai_session';
-const LOCAL_USERS_DB = 'linguist_ai_users_db';
-const LOCAL_HISTORY_DB = 'linguist_ai_activities_db';
+// Simulated delay to mimic network latency
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const PersistenceService = {
-  getDbInfo: () => ({
-    ...DB_METADATA,
-    status: 'Connected',
-    host: 'cluster0.ubahopq.mongodb.net'
-  }),
-
   getUserByEmail: async (email: string): Promise<User | null> => {
-    console.log(`[Atlas] findOne user: ${email}`);
-    await new Promise(r => setTimeout(r, 600));
-    const users: User[] = JSON.parse(localStorage.getItem(LOCAL_USERS_DB) || '[]');
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-    
-    // Auto-patch admin role for the specific email if it exists
-    if (user && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-      user.role = 'admin';
-    } else if (user) {
-      user.role = user.role || 'user';
-    }
-    
-    return user || null;
+    await delay(500);
+    const users: User[] = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    return users.find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
   },
 
-  getAllUsers: async (): Promise<User[]> => {
-    console.log(`[Atlas] find many documents from test.users`);
-    await new Promise(r => setTimeout(r, 800));
-    const users: User[] = JSON.parse(localStorage.getItem(LOCAL_USERS_DB) || '[]');
-    return users.map(u => ({
-      ...u,
-      role: u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? 'admin' : (u.role || 'user')
-    }));
+  login: async (email: string, password: string): Promise<User> => {
+    await delay(800);
+    const users: User[] = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+    
+    if (!user) {
+      throw new Error('Invalid email or password. Please check your credentials.');
+    }
+    
+    // Create a copy without password for session
+    const { password: _, ...userSession } = user;
+    return userSession as User;
   },
 
   createUser: async (name: string, email: string, password: string, level: User['englishLevel']): Promise<User> => {
-    console.log(`[Atlas] insertOne user...`);
-    await new Promise(r => setTimeout(r, 1000));
+    await delay(1000);
+    const users: User[] = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
     
-    const users: User[] = JSON.parse(localStorage.getItem(LOCAL_USERS_DB) || '[]');
-    
+    if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+      throw new Error('An account with this email already exists.');
+    }
+
     const newUser: User = {
-      id: `obj_${Math.random().toString(36).substr(2, 12)}`,
+      id: `user_${Date.now()}`,
       name,
       email: email.toLowerCase(),
-      password, 
+      password,
       englishLevel: level,
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
-      role: email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? 'admin' : 'user'
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(email)}`,
+      role: email.toLowerCase().includes('admin') ? 'admin' : 'user'
     };
-    
+
     users.push(newUser);
-    localStorage.setItem(LOCAL_USERS_DB, JSON.stringify(users));
-    return newUser;
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+    const { password: _, ...userSession } = newUser;
+    return userSession as User;
+  },
+
+  updateUser: async (userId: string, updates: Partial<User>): Promise<User> => {
+    await delay(800);
+    const users: User[] = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const index = users.findIndex(u => u.id === userId);
+    
+    if (index === -1) throw new Error('User not found');
+    
+    // Update the record
+    users[index] = { ...users[index], ...updates };
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    
+    // Update current session
+    const { password: _, ...userSession } = users[index];
+    localStorage.setItem(SESSION_KEY, JSON.stringify(userSession));
+    
+    return userSession as User;
+  },
+
+  updatePassword: async (userId: string, currentPass: string, newPass: string): Promise<void> => {
+    await delay(1000);
+    const users: User[] = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const index = users.findIndex(u => u.id === userId);
+    
+    if (index === -1) throw new Error('User not found');
+    if (users[index].password !== currentPass) throw new Error('Current password is incorrect');
+    
+    users[index].password = newPass;
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
   },
 
   setCurrentUser: (user: User) => {
@@ -85,28 +98,37 @@ export const PersistenceService = {
   },
 
   saveActivity: async (userId: string, type: LearningMode, title: string, score?: number, details?: any) => {
-    console.log(`[Atlas] insertOne activity...`);
-    const newActivity: Activity = {
-      id: `doc_${Math.random().toString(36).substr(2, 12)}`,
-      userId,
-      type,
-      title,
-      score,
-      details,
-      timestamp: Date.now()
+    const activities: Activity[] = JSON.parse(localStorage.getItem(ACTIVITIES_KEY) || '[]');
+    const act: Activity = { 
+      id: `act_${Date.now()}`, 
+      userId, 
+      type, 
+      title, 
+      timestamp: Date.now(), 
+      score, 
+      details 
     };
-    await new Promise(r => setTimeout(r, 1200));
-    const allActivities: Activity[] = JSON.parse(localStorage.getItem(LOCAL_HISTORY_DB) || '[]');
-    allActivities.unshift(newActivity);
-    localStorage.setItem(LOCAL_HISTORY_DB, JSON.stringify(allActivities));
-    return newActivity;
+    activities.unshift(act);
+    localStorage.setItem(ACTIVITIES_KEY, JSON.stringify(activities));
+    return act;
   },
 
   getActivities: async (userId: string): Promise<Activity[]> => {
-    console.log(`[Atlas] find activities for ${userId}`);
-    await new Promise(r => setTimeout(r, 800));
-    const data = localStorage.getItem(LOCAL_HISTORY_DB);
+    const data = localStorage.getItem(ACTIVITIES_KEY);
     const all: Activity[] = data ? JSON.parse(data) : [];
     return all.filter(a => a.userId === userId);
-  }
+  },
+
+  getAllUsers: async (): Promise<User[]> => {
+    await delay(300);
+    const users: User[] = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    return users.map(({ password, ...u }) => u as User);
+  },
+
+  getDbInfo: () => ({
+    cluster: 'LocalEngine',
+    project: 'linguist-ai-offline',
+    database: 'browser-storage',
+    status: 'Active'
+  })
 };
