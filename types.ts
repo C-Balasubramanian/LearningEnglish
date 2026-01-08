@@ -9,7 +9,8 @@ export enum LearningMode {
   MOVIE_LEARNING = 'movie_learning',
   HISTORY = 'history',
   ADMIN_USERS = 'admin_users',
-  PROFILE = 'profile'
+  PROFILE = 'profile',
+  TRANSLATOR = 'translator'
 }
 
 export interface User {

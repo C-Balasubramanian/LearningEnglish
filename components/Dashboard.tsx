@@ -31,6 +31,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onNavigate }) => {
     { mode: LearningMode.SPEAKING, title: 'AI Call', desc: 'Real-time conversation practice', icon: 'mic', color: 'indigo' },
     { mode: LearningMode.READING, title: 'Reading Mastery', desc: 'Personalized stories & quizzes', icon: 'book', color: 'emerald' },
     { mode: LearningMode.WRITING, title: 'Writing Studio', desc: 'Grammar analysis & feedback', icon: 'pencil', color: 'amber' },
+    { mode: LearningMode.TRANSLATOR, title: 'Translator', desc: 'Quick multi-language support', icon: 'translate', color: 'purple' },
   ];
 
   return (
@@ -63,7 +64,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onNavigate }) => {
       </header>
 
       {/* Mode Navigation */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
         {cards.map((card) => (
           <div
             key={card.mode}
@@ -75,6 +76,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onNavigate }) => {
                {card.icon === 'mic' && <svg className="w-6 md:w-7 h-6 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>}
                {card.icon === 'book' && <svg className="w-6 md:w-7 h-6 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" /></svg>}
                {card.icon === 'pencil' && <svg className="w-6 md:w-7 h-6 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>}
+               {card.icon === 'translate' && <svg className="w-6 md:w-7 h-6 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>}
             </div>
             <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-2 md:mb-3">{card.title}</h3>
             <p className="text-slate-500 leading-relaxed text-sm font-medium">{card.desc}</p>
@@ -109,7 +111,8 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onNavigate }) => {
                 <div key={item.id} className="group p-4 md:p-6 flex items-center gap-4 md:gap-6 hover:bg-slate-50 transition-all rounded-3xl">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110 ${
                     item.type === LearningMode.SPEAKING ? 'bg-indigo-100 text-indigo-600 shadow-inner' : 
-                    item.type === LearningMode.READING ? 'bg-emerald-100 text-emerald-600 shadow-inner' : 'bg-amber-100 text-amber-600 shadow-inner'
+                    item.type === LearningMode.READING ? 'bg-emerald-100 text-emerald-600 shadow-inner' : 
+                    item.type === LearningMode.TRANSLATOR ? 'bg-purple-100 text-purple-600 shadow-inner' : 'bg-amber-100 text-amber-600 shadow-inner'
                   }`}>
                     <span className="text-[10px] font-black uppercase">{item.type[0]}</span>
                   </div>

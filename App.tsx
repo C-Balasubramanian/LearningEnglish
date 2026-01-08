@@ -12,6 +12,7 @@ import LandingPage from './components/LandingPage';
 import MethodologyPage from './components/MethodologyPage';
 import AdminUserList from './components/AdminUserList';
 import ProfilePage from './components/ProfilePage';
+import Translator from './components/Translator';
 import { LearningMode, User } from './types';
 import { PersistenceService } from './services/persistence';
 
@@ -107,6 +108,8 @@ const App: React.FC = () => {
         return <AdminUserList />;
       case LearningMode.PROFILE:
         return <ProfilePage user={user} />;
+      case LearningMode.TRANSLATOR:
+        return <Translator user={user} />;
       case LearningMode.DASHBOARD:
       default:
         return <Dashboard user={user} onNavigate={handleModeChange} />;
