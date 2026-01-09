@@ -648,7 +648,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
 
           <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">© 2024 Star AI Global • All Rights Reserved</p>
+              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">© 2025 Star AI Global • All Rights Reserved</p>
               <div className="flex gap-4">
                 <button className="text-[9px] font-black text-slate-700 hover:text-white uppercase tracking-widest transition-colors">System Status</button>
                 <button className="text-[9px] font-black text-slate-700 hover:text-white uppercase tracking-widest transition-colors">Cookies</button>
