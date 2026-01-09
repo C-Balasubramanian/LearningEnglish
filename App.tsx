@@ -152,11 +152,13 @@ const App: React.FC = () => {
               </svg>
             </button>
             <button onClick={() => setViewState('landing')} className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                </svg>
-              </div>
+              {/* <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center"> */}
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            </div>
+              {/* </div> */}
               <span className="font-black text-slate-900 tracking-tight hidden sm:inline">Star AI</span>
             </button>
           </div>
