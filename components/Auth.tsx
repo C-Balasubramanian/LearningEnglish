@@ -82,7 +82,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z" />
               </svg>
             </div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Linguist AI</h1>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Star AI</h1>
             <p className="text-slate-500 mt-2 font-bold uppercase text-[10px] tracking-widest">
               {isLogin ? `Log in to ${dbInfo.database}` : `Sign up to ${dbInfo.database}`}
             </p>

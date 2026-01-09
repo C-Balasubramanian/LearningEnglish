@@ -320,7 +320,7 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
 
       {/* Footer Branding */}
       <footer className="relative z-10 p-6 flex justify-center border-t border-white/5 bg-slate-950/40">
-        <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">Propelled by Linguist AI • Gemini Real-time Engine</p>
+        <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">Propelled by Star AI • Gemini Real-time Engine</p>
       </footer>
     </div>
   );

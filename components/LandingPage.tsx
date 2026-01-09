@@ -74,7 +74,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
               </svg>
             </div>
-            <span className="text-lg md:text-xl font-black tracking-tight">Linguist AI</span>
+            <span className="text-lg md:text-xl font-black tracking-tight">Star AI</span>
           </div>
           
           <div className="flex items-center gap-3 md:gap-8">
@@ -251,7 +251,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                   </svg>
                 </div>
-                <span className="text-xl font-black tracking-tight">Linguist AI</span>
+                <span className="text-xl font-black tracking-tight">Star AI</span>
               </div>
               <p className="text-slate-400 font-medium leading-relaxed text-sm max-w-xs">
                 Empowering individuals to master global communication through advanced multimodal AI reasoning and real-time feedback loops.
@@ -315,7 +315,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
           {/* Bottom Bar */}
           <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">© 2024 Linguist AI Global • All Rights Reserved</p>
+              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">© 2024 Star AI Global • All Rights Reserved</p>
               <div className="flex gap-4">
                 <button className="text-[9px] font-black text-slate-700 hover:text-white uppercase tracking-widest transition-colors">System Status</button>
                 <button className="text-[9px] font-black text-slate-700 hover:text-white uppercase tracking-widest transition-colors">Cookies</button>

@@ -64,7 +64,7 @@ const MethodologyPage: React.FC<MethodologyPageProps> = ({ onBack, onGetStarted 
               The Science of <span className="text-indigo-600">Fluency</span>
             </h1>
             <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
-              How Linguist AI mirrors the natural human language acquisition process using world-class neural reasoning.
+              How Star AI mirrors the natural human language acquisition process using world-class neural reasoning.
             </p>
           </div>
 
@@ -79,7 +79,7 @@ const MethodologyPage: React.FC<MethodologyPageProps> = ({ onBack, onGetStarted 
                    <div className="inline-flex px-4 py-2 bg-indigo-100 text-indigo-700 rounded-2xl text-xs font-black uppercase tracking-widest">The Feedback Loop</div>
                    <h2 className="text-3xl font-black text-slate-900 leading-tight">Closing the gap between knowledge and speech.</h2>
                    <p className="text-slate-600 leading-relaxed font-medium">
-                     Unlike traditional learning methods that rely on passive consumption, Linguist AI creates a high-velocity feedback loop. We focus on the "Second Language Acquisition" theory where comprehensible input and output are equally vital.
+                     Unlike traditional learning methods that rely on passive consumption, Star AI creates a high-velocity feedback loop. We focus on the "Second Language Acquisition" theory where comprehensible input and output are equally vital.
                    </p>
                 </div>
                 <div className="flex items-center justify-center">
@@ -142,7 +142,7 @@ const MethodologyPage: React.FC<MethodologyPageProps> = ({ onBack, onGetStarted 
 
       {/* Page Footer */}
       <footer className="py-12 border-t border-slate-100 flex justify-center">
-         <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">Linguist AI Scientific Framework v1.0 • Gemini 3.0 Engine</p>
+         <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">Star AI Scientific Framework v1.0 • Gemini 3.0 Engine</p>
       </footer>
     </div>
   );
