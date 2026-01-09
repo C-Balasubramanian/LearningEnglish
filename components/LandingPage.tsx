@@ -146,7 +146,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 md:py-2 bg-indigo-50 rounded-full mb-6 md:mb-8">
             <span className="flex h-1.5 w-1.5 md:h-2 md:w-2 rounded-full bg-indigo-600 animate-pulse"></span>
-            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-indigo-600 whitespace-nowrap">Powered by Gemini 3.0</span>
+            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-indigo-600 whitespace-nowrap">Powered by Star AI</span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter mb-6 md:mb-10 leading-[1.1] md:leading-[0.9]">
             Master English with <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Real-Time AI</span>
@@ -325,7 +325,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
               <span className="text-[9px] font-black text-slate-800 uppercase tracking-[0.4em] hidden sm:inline">Propelled by</span>
               <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-xl border border-white/10">
                 <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]"></div>
-                <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Gemini 3.0 Live Engine</span>
+                <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Star AI Live Engine</span>
               </div>
             </div>
           </div>

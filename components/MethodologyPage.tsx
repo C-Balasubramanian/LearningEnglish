@@ -13,7 +13,7 @@ const MethodologyPage: React.FC<MethodologyPageProps> = ({ onBack, onGetStarted 
       title: 'Multimodal Input',
       subtitle: 'The Intake Phase',
       desc: 'Humans learn best through immersion. Our AI curates high-fidelity reading and listening materials tailored to your specific proficiency (CEFR aligned).',
-      tech: 'Powered by Gemini 3.0 Pro Reasoning'
+      tech: 'Powered by Star AI Pro Reasoning'
     },
     {
       id: '02',
@@ -27,7 +27,7 @@ const MethodologyPage: React.FC<MethodologyPageProps> = ({ onBack, onGetStarted 
       title: 'Analytical Deconstruction',
       subtitle: 'The Feedback Phase',
       desc: 'Every word spoken or written is analyzed against a multi-billion parameter linguistic model to identify subtle tonal and grammatical nuances.',
-      tech: 'Gemini 3.0 Flash Analytical Logic'
+      tech: 'Star AI Flash Analytical Logic'
     },
     {
       id: '04',
@@ -142,7 +142,7 @@ const MethodologyPage: React.FC<MethodologyPageProps> = ({ onBack, onGetStarted 
 
       {/* Page Footer */}
       <footer className="py-12 border-t border-slate-100 flex justify-center">
-         <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">Star AI Scientific Framework v1.0 • Gemini 3.0 Engine</p>
+         <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em]">Star AI Scientific Framework v1.0 • Star AI Engine</p>
       </footer>
     </div>
   );
