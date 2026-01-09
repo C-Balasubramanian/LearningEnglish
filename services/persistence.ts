@@ -1,9 +1,10 @@
 
-import { User, Activity, LearningMode } from '../types';
+import { User, Activity, LearningMode, StoryBook } from '../types';
 
 const USERS_KEY = 'linguist_users_db';
 const SESSION_KEY = 'linguist_session';
 const ACTIVITIES_KEY = 'linguist_activities_db';
+const CUSTOM_BOOKS_KEY = 'linguist_custom_books_db';
 
 // Simulated delay to mimic network latency
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -125,10 +126,26 @@ export const PersistenceService = {
     return users.map(({ password, ...u }) => u as User);
   },
 
+  // StoryBook Persistence
+  getUserBooks: (userId: string): StoryBook[] => {
+    const data = localStorage.getItem(CUSTOM_BOOKS_KEY);
+    if (!data) return [];
+    const all: Record<string, StoryBook[]> = JSON.parse(data);
+    return all[userId] || [];
+  },
+
+  saveUserBook: (userId: string, book: StoryBook) => {
+    const data = localStorage.getItem(CUSTOM_BOOKS_KEY);
+    const all: Record<string, StoryBook[]> = data ? JSON.parse(data) : {};
+    if (!all[userId]) all[userId] = [];
+    all[userId].unshift(book);
+    localStorage.setItem(CUSTOM_BOOKS_KEY, JSON.stringify(all));
+  },
+
   getDbInfo: () => ({
     cluster: 'LocalEngine',
-    project: 'linguist-ai-offline',
-    database: 'browser-storage',
+    project: 'star-ai-offline',
+    database: 'star-storage',
     status: 'Active'
   })
 };

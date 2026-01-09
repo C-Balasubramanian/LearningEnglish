@@ -1,4 +1,5 @@
 
+
 export enum LearningMode {
   SPEAKING = 'speaking',
   LISTENING = 'listening',
@@ -6,11 +7,11 @@ export enum LearningMode {
   WRITING = 'writing',
   DASHBOARD = 'dashboard',
   ASSISTANT = 'assistant',
-  MOVIE_LEARNING = 'movie_learning',
-  HISTORY = 'history',
-  ADMIN_USERS = 'admin_users',
+  STORY_BOOKS = 'story_books',
   PROFILE = 'profile',
-  TRANSLATOR = 'translator'
+  TRANSLATOR = 'translator',
+  ADMIN_USERS = 'admin_users',
+  DAILY_ROUTINE = 'daily_routine'
 }
 
 export interface User {
@@ -39,7 +40,30 @@ export interface TranscriptionEntry {
   timestamp: number;
 }
 
-export interface Subtitle {
+export interface BookSentence {
+  english: string;
+  tamil: string;
+}
+
+export interface BookChapter {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  sentences: BookSentence[];
+}
+
+export interface StoryBook {
+  id: string;
+  title: string;
+  author: string;
+  rating: string;
+  coverImage: string;
+  chapters: BookChapter[];
+  fullNarrative: BookSentence[]; // New field for start-to-end explanation
+}
+
+export interface SubtitlePair {
   time: number;
   english: string;
   tamil: string;
@@ -48,21 +72,25 @@ export interface Subtitle {
 export interface MovieScene {
   id: string;
   title: string;
-  thumbnail: string;
-  videoUrl: string;
   description: string;
-  subtitles: Subtitle[];
+  thumbnail: string;
+  youtubeId: string;
+  subtitles: SubtitlePair[];
 }
 
 export interface MovieStory {
   id: string;
   title: string;
-  coverImage: string;
   genre: string;
   rating: string;
+  coverImage: string;
   parts: MovieScene[];
 }
 
+/**
+ * Added to resolve compilation errors in WritingLearning.tsx.
+ * Defines the structure for granular writing corrections.
+ */
 export interface Correction {
   originalPart: string;
   correctedPart: string;
@@ -70,6 +98,10 @@ export interface Correction {
   category: 'Grammar' | 'Spelling' | 'Style' | 'Punctuation' | 'Vocabulary';
 }
 
+/**
+ * Added to resolve compilation errors in WritingLearning.tsx.
+ * Defines the complete feedback structure for writing analysis.
+ */
 export interface WritingFeedback {
   original: string;
   corrected: string;
@@ -78,13 +110,23 @@ export interface WritingFeedback {
   corrections: Correction[];
 }
 
+/**
+ * Added to resolve compilation errors in ReadingLearning.tsx.
+ * Defines a single multiple-choice question for reading comprehension.
+ */
+export interface ReadingQuestion {
+  question: string;
+  options: string[];
+  answer: number;
+}
+
+/**
+ * Added to resolve compilation errors in ReadingLearning.tsx.
+ * Defines the complete structure for a generated reading passage and its associated quiz.
+ */
 export interface ReadingPassage {
   title: string;
   content: string;
   difficulty: string;
-  questions: {
-    question: string;
-    options: string[];
-    answer: number;
-  }[];
+  questions: ReadingQuestion[];
 }

@@ -4,7 +4,7 @@ import Sidebar from './components/Sidebar';
 import VoiceLearning from './components/VoiceLearning';
 import WritingLearning from './components/WritingLearning';
 import ReadingLearning from './components/ReadingLearning';
-import MovieLearning from './components/MovieLearning';
+import StoryBooks from './components/StoryBooks';
 import AIHelp from './components/AIHelp';
 import Dashboard from './components/Dashboard';
 import Auth from './components/Auth';
@@ -13,6 +13,7 @@ import MethodologyPage from './components/MethodologyPage';
 import AdminUserList from './components/AdminUserList';
 import ProfilePage from './components/ProfilePage';
 import Translator from './components/Translator';
+// import DailyRoutine from './components/DailyRoutine';
 import { LearningMode, User } from './types';
 import { PersistenceService } from './services/persistence';
 
@@ -24,10 +25,9 @@ const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const savedUser = PersistenceService.getCurrentUser();
-    if (savedUser) {
-      setUser(savedUser);
-      // If a user is saved, they start in the 'app' state
+    const saved = PersistenceService.getCurrentUser();
+    if (saved) {
+      setUser(saved);
       setViewState('app');
     }
     setIsInitializing(false);
@@ -38,145 +38,63 @@ const App: React.FC = () => {
     setUser(null);
     setViewState('landing');
     setCurrentMode(LearningMode.DASHBOARD);
-    setIsSidebarOpen(false);
   };
 
-  const handleLogin = (newUser: User) => {
-    setUser(newUser);
-    setViewState('app');
-  };
-
-  const handleModeChange = (mode: LearningMode) => {
-    setCurrentMode(mode);
-    setViewState('app'); // Ensure we are in the 'app' view
-    setIsSidebarOpen(false);
-  };
-
-  const navigateToDashboard = () => {
+  const handleLogin = (u: User) => {
+    setUser(u);
     setViewState('app');
     setCurrentMode(LearningMode.DASHBOARD);
   };
 
+  const handleUserUpdate = (updatedUser: User) => {
+    setUser(updatedUser);
+  };
+
   if (isInitializing) return null;
 
-  // View Routing Logic
-  if (viewState === 'landing') {
-    return (
-      <LandingPage 
-        user={user || undefined}
-        onGetStarted={() => user ? navigateToDashboard() : setViewState('auth')} 
-        onLogin={() => setViewState('auth')} 
-        onMethodology={() => setViewState('methodology')}
-        onLogout={handleLogout}
-        onNavigateToDashboard={navigateToDashboard}
-      />
-    );
-  }
-
-  if (viewState === 'methodology') {
-    return (
-      <MethodologyPage 
-        onBack={() => setViewState('landing')}
-        onGetStarted={() => user ? navigateToDashboard() : setViewState('auth')}
-      />
-    );
-  }
-
-  if (viewState === 'auth' && !user) {
-    return <Auth onLogin={handleLogin} />;
-  }
-
-  // If we reach here, we must have a user and be in 'app' state
-  if (!user) {
-    setViewState('landing');
-    return null;
-  }
+  if (viewState === 'landing') return <LandingPage onGetStarted={() => setViewState('auth')} onLogin={() => setViewState('auth')} onMethodology={() => setViewState('methodology')} user={user || undefined} onLogout={handleLogout} onNavigateToDashboard={() => setViewState('app')} />;
+  if (viewState === 'methodology') return <MethodologyPage onBack={() => setViewState('landing')} onGetStarted={() => setViewState('auth')} />;
+  if (viewState === 'auth' && !user) return <Auth onLogin={handleLogin} />;
+  if (!user) { setViewState('landing'); return null; }
 
   const renderContent = () => {
     switch (currentMode) {
-      case LearningMode.SPEAKING:
-        return <VoiceLearning user={user} />;
-      case LearningMode.WRITING:
-        return <WritingLearning user={user} />;
-      case LearningMode.READING:
-        return <ReadingLearning user={user} />;
-      case LearningMode.MOVIE_LEARNING:
-        return <MovieLearning user={user} />;
-      case LearningMode.ASSISTANT:
-        return <AIHelp user={user} onStartCall={() => setCurrentMode(LearningMode.SPEAKING)} />;
-      case LearningMode.ADMIN_USERS:
-        return <AdminUserList />;
-      case LearningMode.PROFILE:
-        return <ProfilePage user={user} />;
-      case LearningMode.TRANSLATOR:
-        return <Translator user={user} />;
+      case LearningMode.SPEAKING: return <VoiceLearning user={user} />;
+      case LearningMode.WRITING: return <WritingLearning user={user} />;
+      case LearningMode.READING: return <ReadingLearning user={user} />;
+      case LearningMode.STORY_BOOKS: return <StoryBooks user={user} />;
+      // case LearningMode.DAILY_ROUTINE: return <DailyRoutine user={user} />;
+      case LearningMode.ASSISTANT: return <AIHelp user={user} onStartCall={() => setCurrentMode(LearningMode.SPEAKING)} />;
+      case LearningMode.ADMIN_USERS: return <AdminUserList />;
+      case LearningMode.PROFILE: return <ProfilePage user={user} onUserUpdate={handleUserUpdate} />;
+      case LearningMode.TRANSLATOR: return <Translator user={user} />;
       case LearningMode.DASHBOARD:
-      default:
-        return <Dashboard user={user} onNavigate={handleModeChange} />;
+      default: return <Dashboard user={user} onNavigate={setCurrentMode} />;
     }
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50 relative animate-in fade-in duration-500">
-      {/* Mobile Backdrop */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm transition-opacity"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar - Hidden on mobile by default, Slide-in via z-index */}
-      <div className={`
-        fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 lg:relative lg:translate-x-0
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        <Sidebar 
-          currentMode={currentMode} 
-          setMode={handleModeChange} 
-          user={user} 
-          onLogout={handleLogout} 
-        />
+    <div className="flex h-screen bg-slate-50">
+      <div className={`fixed inset-y-0 left-0 z-50 lg:relative lg:translate-x-0 transform transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <Sidebar currentMode={currentMode} setMode={(m) => { setCurrentMode(m); setIsSidebarOpen(false); }} user={user} onLogout={handleLogout} />
       </div>
-
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        {/* Top Header */}
-        <header className="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200">
+      <main className="flex-1 flex flex-col min-w-0">
+        <header className="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between">
+          <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden p-2 bg-slate-50 rounded-lg"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg></button>
           <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setIsSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors mr-2"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-            <button onClick={() => setViewState('landing')} className="flex items-center gap-2">
-              {/* <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center"> */}
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
             </div>
-              {/* </div> */}
-              <span className="font-black text-slate-900 tracking-tight hidden sm:inline">Star AI</span>
-            </button>
+            <span className="font-black text-slate-900 tracking-tight">Star AI</span>
           </div>
-
-          <div className="flex items-center gap-4">
-             <button 
-                onClick={() => handleModeChange(LearningMode.PROFILE)}
-                className="flex items-center gap-3 p-1.5 pr-4 rounded-2xl hover:bg-slate-50 transition-all border border-transparent hover:border-slate-100"
-             >
-                <img src={user.avatar} className="w-8 h-8 rounded-xl shadow-sm border border-white" alt={user.name} />
-                <span className="text-xs font-black text-slate-900 hidden md:inline">{user.name}</span>
-             </button>
+          <div className="flex items-center gap-3">
+             <span className="text-[10px] font-black uppercase text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">{user.englishLevel}</span>
+             <img src={user.avatar} className="w-8 h-8 rounded-xl" alt="" />
           </div>
         </header>
-
-        <div className="flex-1 overflow-y-auto bg-slate-50/30">
-          {renderContent()}
-        </div>
+        <div className="flex-1 overflow-y-auto">{renderContent()}</div>
       </main>
     </div>
   );
