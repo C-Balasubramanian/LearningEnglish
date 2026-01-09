@@ -36,7 +36,7 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
       PersistenceService.saveActivity(
         user.id, 
         LearningMode.SPEAKING, 
-        `AI Call: ${user.englishLevel} Session`,
+        `Bilingual AI Call: ${user.englishLevel} Session`,
         undefined,
         { transcriptions, duration: callDuration }
       );
@@ -92,9 +92,18 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
           speechConfig: { 
             voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } } 
           },
-          systemInstruction: `You are Zephyr, a world-class AI English tutor. You are on a phone call with ${user.name}, who is at the ${user.englishLevel} level. 
-          Respond verbally, naturally, and warmly. Keep responses concise for the call format. Correct mistakes gently. 
-          Start by saying: "Hi ${user.name.split(' ')[0]}, Zephyr here! I'm ready for our call. What's on your mind today?"`,
+          systemInstruction: `You are Zephyr, a world-class Bilingual AI English-Tamil Tutor. You are on a phone call with ${user.name}, who is at the ${user.englishLevel} level. 
+          Your mission is to help them improve their English through natural conversation. 
+          
+          CRITICAL CAPABILITIES:
+          1. You understand BOTH English and Tamil fluently.
+          2. If the user struggles and speaks in Tamil, understand them perfectly, respond warmly in English, and provide the English equivalent of what they said.
+          3. Encourage the user to repeat the English phrases.
+          4. Maintain a supportive "bridge" between the two languages. Correct English mistakes gently by providing the natural way a native speaker would say it.
+          
+          Call Format:
+          Keep responses concise (1-3 sentences) so it feels like a real phone call. 
+          Start by saying: "Hi ${user.name.split(' ')[0]}, Zephyr here! I'm ready for our bilingual call. You can speak in English or Tamil, and I'll help you master the conversation. What's on your mind?"`,
           inputAudioTranscription: {},
           outputAudioTranscription: {},
         },
@@ -203,13 +212,19 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
       <div className="flex-1 flex flex-col relative z-10">
         {!isActive && !isConnecting ? (
           <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-8 animate-in fade-in zoom-in duration-500">
-            <div className="w-48 h-48 bg-slate-900 rounded-[3rem] border border-white/5 flex items-center justify-center shadow-2xl">
+            <div className="w-48 h-48 bg-slate-900 rounded-[3rem] border border-white/5 flex items-center justify-center shadow-2xl relative">
               <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Zephyr" alt="Zephyr" className="w-32 h-32 opacity-80" />
+              <div className="absolute -bottom-2 -right-2 bg-indigo-600 px-3 py-1 rounded-lg text-[10px] font-black text-white uppercase tracking-widest border border-white/10 shadow-xl">Bilingual Support</div>
             </div>
             <div className="space-y-4">
               <h2 className="text-4xl font-black text-white tracking-tight">AI Call with Zephyr</h2>
+              <div className="flex items-center justify-center gap-2 mb-4">
+                 <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">English</span>
+                 <svg className="w-4 h-4 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                 <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Tamil</span>
+              </div>
               <p className="text-white/40 max-w-sm mx-auto text-lg font-medium leading-relaxed">
-                Connect for a real-time voice conversation to boost your fluency at the {user.englishLevel} level.
+                Connect for a real-time bilingual session. Speak freely in English or Tamil; Zephyr will guide you to fluency.
               </p>
             </div>
             <button
@@ -217,7 +232,7 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
               className="px-12 py-5 bg-indigo-600 text-white rounded-[2rem] font-black text-xl hover:bg-indigo-500 transition-all shadow-2xl shadow-indigo-600/20 active:scale-95 flex items-center gap-4"
             >
               Start Call
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 005.505 5.505l.773-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 005.505 5.505l.773-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
             </button>
           </div>
         ) : isConnecting ? (
@@ -229,8 +244,8 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
               <div className="absolute inset-[-10px] border-2 border-indigo-500/50 rounded-full animate-[ping_2s_infinite]"></div>
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl font-black text-white uppercase tracking-[0.2em]">Calling Zephyr...</h3>
-              <p className="text-white/20 font-bold">Establishing secure audio link</p>
+              <h3 className="text-2xl font-black text-white uppercase tracking-[0.2em]">Bilingual Syncing...</h3>
+              <p className="text-white/20 font-bold">Optimizing audio for English-Tamil bridging</p>
             </div>
             <button onClick={stopSession} className="px-8 py-4 bg-rose-600/10 text-rose-500 border border-rose-500/20 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-rose-600 hover:text-white transition-all">Cancel Call</button>
           </div>
@@ -243,7 +258,11 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   {formatTime(callDuration)}
                 </span>
-                <p className="text-white/40 font-bold uppercase tracking-[0.3em] text-[10px]">Connected to Zephyr</p>
+                <div className="flex items-center gap-2">
+                   <p className="text-white/40 font-black uppercase tracking-[0.3em] text-[10px]">Connected to Zephyr</p>
+                   <span className="w-1 h-1 bg-white/20 rounded-full"></span>
+                   <p className="text-indigo-400 font-black uppercase tracking-[0.3em] text-[9px]">Bilingual Mode Active</p>
+                </div>
               </div>
 
               <div className="relative mb-16">
@@ -271,7 +290,7 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
                   onClick={stopSession}
                   className="w-24 h-24 rounded-[2.5rem] bg-rose-600 flex items-center justify-center text-white shadow-2xl shadow-rose-600/40 hover:bg-rose-500 transition-all active:scale-95"
                 >
-                  <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 005.505 5.505l.773-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                  <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 005.505 5.505l.773-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
                 </button>
                 <button 
                   onClick={() => setShowTranscript(!showTranscript)}
@@ -288,7 +307,10 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
             {showTranscript && (
               <div className="w-full md:w-[400px] bg-slate-900/80 backdrop-blur-3xl border-l border-white/5 flex flex-col animate-in slide-in-from-right duration-300">
                 <div className="p-6 border-b border-white/5 flex items-center justify-between">
-                  <h4 className="text-xs font-black uppercase tracking-widest text-indigo-400">Live Transcript</h4>
+                  <div>
+                    <h4 className="text-xs font-black uppercase tracking-widest text-indigo-400 leading-none">Bilingual Transcript</h4>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-1">Real-time Translation active</p>
+                  </div>
                   <button onClick={() => setShowTranscript(false)} className="text-white/40 hover:text-white">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
@@ -297,10 +319,10 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
                   {transcriptions.map((t, i) => (
                     <div key={i} className={`flex ${t.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`max-w-[90%] rounded-2xl p-4 text-sm leading-relaxed ${
-                        t.role === 'user' ? 'bg-indigo-600 text-white rounded-br-none' : 'bg-white/5 text-white/80 border border-white/10 rounded-bl-none'
+                        t.role === 'user' ? 'bg-indigo-600 text-white rounded-br-none shadow-xl' : 'bg-white/5 text-white/80 border border-white/10 rounded-bl-none'
                       }`}>
                         <p className="font-black text-[9px] uppercase tracking-tighter mb-1 opacity-50">
-                          {t.role === 'user' ? 'You' : 'Zephyr'}
+                          {t.role === 'user' ? 'You (English/Tamil)' : 'Zephyr (Tutor)'}
                         </p>
                         {t.text}
                       </div>
@@ -308,7 +330,7 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
                   ))}
                   {transcriptions.length === 0 && (
                     <div className="h-full flex items-center justify-center text-center px-8 text-white/20 font-black text-xs uppercase tracking-[0.2em]">
-                      Transcription will appear as you speak
+                      Start speaking in English or Tamil...
                     </div>
                   )}
                 </div>
@@ -320,7 +342,7 @@ const VoiceLearning: React.FC<VoiceLearningProps> = ({ user }) => {
 
       {/* Footer Branding */}
       <footer className="relative z-10 p-6 flex justify-center border-t border-white/5 bg-slate-950/40">
-        <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">Propelled by Star AI • Gemini Real-time Engine</p>
+        <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">Propelled by Star AI • Multi-Language Engine</p>
       </footer>
     </div>
   );
